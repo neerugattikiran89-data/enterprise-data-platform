@@ -1,0 +1,54 @@
+services:
+  source-postgres:
+    image: postgres:16
+    container_name: source_postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ecommerce_source
+      POSTGRES_USER: source_user
+      POSTGRES_PASSWORD: source_password
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - source_postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U source_user -d ecommerce_source"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  warehouse-postgres:
+    image: postgres:16
+    container_name: warehouse_postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ecommerce_warehouse
+      POSTGRES_USER: warehouse_user
+      POSTGRES_PASSWORD: warehouse_password
+
+    ports:
+      - "5434:5432"
+
+    volumes:
+      - warehouse_postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U warehouse_user -d ecommerce_warehouse"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  source_postgres_data:
+  warehouse_postgres_data:

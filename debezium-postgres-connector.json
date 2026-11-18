@@ -1,0 +1,19 @@
+﻿{
+  "name": "olist-postgres-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "database.hostname": "source-postgres",
+    "database.port": "5432",
+    "database.user": "source_user",
+    "database.password": "source_password",
+    "database.dbname": "ecommerce_source",
+    "topic.prefix": "ecommerce",
+    "plugin.name": "pgoutput",
+    "slot.name": "olist_cdc_slot",
+    "publication.name": "olist_publication",
+    "publication.autocreate.mode": "filtered",
+    "table.include.list": "raw.api_posts",
+    "snapshot.mode": "initial",
+    "tombstones.on.delete": "false"
+  }
+}

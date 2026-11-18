@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Brazilian dataset",
+			"path": "../../../Downloads/Brazilian dataset"
+		},
+		{
+			"name": "Enterprize-data-platform",
+			"path": "."
+		}
+	],
+	"settings": {}
+}
